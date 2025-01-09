@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    src: url("./assets/fonts/Rubik-VariableFont_wght.woff2");
+    font-family: "Rubik";
+    font-weight: 300 900;
+  }
+
+  @font-face {
+    src: url("./assets/fonts/Rubik-Italic-VariableFont_wght.woff2");
+    font-family: "Rubik-Italic";
+    font-weight: 300 900;
+  }
+
+  *:focus-visible {
+    outline: 0.125rem dotted hsl(277, 91%, 56%);
+    outline-offset: 0.125rem;
+  }
+}
