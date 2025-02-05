@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <main>
-      <div>Hello world!</div>
+      <div>Pick a subject to get started.</div>
     </main>
   )
 }

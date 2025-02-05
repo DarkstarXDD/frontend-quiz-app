@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Rubik } from "next/font/google"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -29,6 +30,12 @@ export const metadata: Metadata = {
   },
 }
 
+const rubik = Rubik({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-rubik",
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,7 +43,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-zinc-950 text-zinc-100">{children}</body>
+      <body
+        className={`${rubik.variable} font-rubik bg-black font-medium leading-normal tracking-normal text-white`}
+      >
+        {children}
+      </body>
     </html>
   )
 }
