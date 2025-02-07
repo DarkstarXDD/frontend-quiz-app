@@ -1,12 +1,13 @@
 export default function IconAccessibility() {
   return (
-    <div className="rounded-md bg-purple-100 p-2">
+    <div className="flex size-10 items-center justify-center rounded-md bg-purple-100 md:size-14">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="40"
         height="40"
         fill="none"
         viewBox="0 0 40 40"
+        className="size-7 md:size-10"
       >
         <path
           fill="#A729F5"
