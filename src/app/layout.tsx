@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${rubik.variable} flex min-h-dvh flex-col items-center bg-blue-100 px-6 py-4 font-rubik font-medium leading-normal tracking-normal text-blue-900 md:justify-center`}
+        className={`${rubik.variable} flex min-h-dvh flex-col items-center justify-center bg-blue-100 px-6 py-4 font-rubik font-medium leading-normal tracking-normal text-blue-900 md:px-16 md:py-10`}
       >
         {children}
       </body>
