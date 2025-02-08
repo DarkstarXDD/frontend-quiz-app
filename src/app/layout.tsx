@@ -46,7 +46,8 @@ export default function RootLayout({
       <body
         className={`${rubik.variable} flex min-h-dvh flex-col items-center justify-center bg-blue-100 px-6 py-4 font-rubik font-medium leading-normal tracking-normal text-blue-900 md:px-16 md:py-10`}
       >
-        {children}
+        {/* Controls the width of the wrapper for all pages */}
+        <div className="w-full max-w-2xl lg:max-w-6xl">{children}</div>{" "}
       </body>
     </html>
   )

@@ -9,14 +9,14 @@ export default async function QuestionPage({
   const { category } = await params
 
   return (
-    <div className="w-full max-w-2xl lg:max-w-6xl">
+    <>
       <header className="w-full">
         <CategoryDisplay category={category} />
       </header>
 
-      <main className="mt-12">
+      <main className="mt-12 lg:mt-20">
         <QuestionForm />
       </main>
-    </div>
+    </>
   )
 }
