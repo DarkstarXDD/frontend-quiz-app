@@ -1,6 +1,11 @@
 import QuestionCategories from "./components/QuestionCategories"
 
-export default function HomePage() {
+import prisma from "@/lib/prisma"
+
+export default async function HomePage() {
+  const questionCategories = await prisma.category.findMany()
+  console.log(questionCategories)
+
   return (
     <main className="grid w-full items-start gap-10 md:gap-16 lg:justify-between lg:[grid-template-columns:minmax(0,30rem)_minmax(0,36rem)]">
       <div className="grid gap-4 lg:gap-12">
