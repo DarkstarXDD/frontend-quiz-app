@@ -13,12 +13,14 @@ datasource db {
 model Category {
   id        String     @id @default(uuid())
   name      String     @unique
+  slug      String     @unique
   questions Question[]
 }
 
 model Question {
   id         String   @id @default(uuid())
-  question   String
+  question   String   @unique
+  slug       String   @unique
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
   answers    Answer[]
@@ -30,4 +32,6 @@ model Answer {
   isCorrect  Boolean
   question   Question @relation(fields: [questionId], references: [id])
   questionId String
+
+  @@unique([questionId, answer])
 }
