@@ -1,10 +1,15 @@
-import QuestionCategories from "./components/QuestionCategories"
+import CategoryLink from "./components/CategoryLink"
 
 import prisma from "@/lib/prisma"
 
 export default async function HomePage() {
-  const questionCategories = await prisma.category.findMany()
-  console.log(questionCategories)
+  const questionCategories = await prisma.category.findMany({
+    include: {
+      questions: {
+        take: 1,
+      },
+    },
+  })
 
   return (
     <main className="grid w-full items-start gap-10 md:gap-16 lg:justify-between lg:[grid-template-columns:minmax(0,30rem)_minmax(0,36rem)]">
@@ -18,7 +23,16 @@ export default async function HomePage() {
         </p>
       </div>
 
-      <QuestionCategories />
+      <ul className="grid w-full gap-4 md:gap-6 lg:gap-4">
+        {questionCategories.map((category) => (
+          <li key={category.id}>
+            <CategoryLink
+              categoryName={category.name}
+              firstQuestionSlug={category.questions[0].slug}
+            />
+          </li>
+        ))}
+      </ul>
     </main>
   )
 }
