@@ -14,8 +14,6 @@ export default async function QuestionPage({ params }: { params: ParamsType }) {
     include: { answers: true },
   })
 
-  console.log(questionData)
-
   if (!questionData) {
     return <p>Question not found</p>
   }

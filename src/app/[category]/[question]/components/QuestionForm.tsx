@@ -23,16 +23,18 @@ export default function QuestionForm({
 }: {
   questionData: QuestionDataType
 }) {
+  const [userAnswerId, setUserAnswerId] = useState<string | null>(null)
+  const [correctAnswerId, setCorrectAnswerId] = useState<string | null>(null)
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null)
 
   async function handleSubmit(formData: FormData) {
     const userAnswerId = formData.get("user-answer") as string
+    const correctAnswerData = await validateAnswer(questionData.id)
 
-    const isCorrect = await validateAnswer(questionData.id, userAnswerId)
-    setIsAnswerCorrect(isCorrect)
+    setUserAnswerId(userAnswerId)
+    setCorrectAnswerId(correctAnswerData?.id ?? null)
+    setIsAnswerCorrect(correctAnswerData?.id === userAnswerId)
   }
-
-  console.log(isAnswerCorrect)
 
   return (
     <form
@@ -49,7 +51,12 @@ export default function QuestionForm({
       </div>
 
       <div className="grid gap-4 md:gap-8">
-        <AnswerGroup answers={questionData.answers} />
+        <AnswerGroup
+          answers={questionData.answers}
+          userAnswerId={userAnswerId}
+          correctAnswerId={correctAnswerId}
+          isAnswerCorrect={isAnswerCorrect}
+        />
         <Button>Submit Answer</Button>
       </div>
     </form>

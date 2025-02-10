@@ -2,8 +2,8 @@
 
 import prisma from "@/lib/prisma"
 
-export async function validateAnswer(questionId: string, answerId: string) {
-  const correctAnswer = await prisma.answer.findFirst({
+export async function validateAnswer(questionId: string) {
+  const correctAnswerData = await prisma.answer.findFirst({
     where: {
       questionId: questionId,
       isCorrect: true,
@@ -13,5 +13,5 @@ export async function validateAnswer(questionId: string, answerId: string) {
     },
   })
 
-  return correctAnswer?.id === answerId
+  return correctAnswerData
 }
