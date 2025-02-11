@@ -2,11 +2,15 @@ import CategoryLink from "./components/CategoryLink"
 
 import prisma from "@/lib/prisma"
 
+// Add error handling
 export default async function HomePage() {
-  const questionCategories = await prisma.category.findMany({
+  const categoriesWithQuestion = await prisma.category.findMany({
     include: {
       questions: {
-        take: 1,
+        take: 1, // Need to get a random row, currently it always returns the first row
+        select: {
+          slug: true,
+        },
       },
     },
   })
@@ -24,10 +28,11 @@ export default async function HomePage() {
       </div>
 
       <ul className="grid w-full gap-4 md:gap-6 lg:gap-4">
-        {questionCategories.map((category) => (
+        {categoriesWithQuestion.map((category) => (
           <li key={category.id}>
             <CategoryLink
               categoryName={category.name}
+              categorySlug={category.slug}
               firstQuestionSlug={category.questions[0].slug}
             />
           </li>
