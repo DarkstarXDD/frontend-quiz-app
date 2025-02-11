@@ -6,7 +6,7 @@ import { RadioGroup, FieldError } from "react-aria-components"
 import Button from "@/components/Button"
 import AnswerOption from "./AnswerOption"
 
-import { validateAnswer } from "@/actions/actions"
+import { getCorrectAnswerId } from "@/actions/actions"
 
 type QuestionFormProps = {
   questionData: {
@@ -29,11 +29,11 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
 
   async function handleSubmit(formData: FormData) {
     const userAnswerId = formData.get("user-answer") as string
-    const correctAnswerData = await validateAnswer(questionData.id)
+    const correctAnswerId = await getCorrectAnswerId(questionData.id)
 
     setUserAnswerId(userAnswerId)
-    setCorrectAnswerId(correctAnswerData?.id ?? null)
-    setIsAnswerCorrect(correctAnswerData?.id === userAnswerId)
+    setCorrectAnswerId(correctAnswerId ?? null)
+    setIsAnswerCorrect(correctAnswerId === userAnswerId)
   }
 
   return (
