@@ -1,3 +1,4 @@
+// This component needs to be changed. Currently the image is hardcoded.
 import IconAccessibility from "@/icons/IconAccessibility"
 
 export default function CategoryDisplay({ category }: { category: string }) {

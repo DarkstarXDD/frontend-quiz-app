@@ -5,14 +5,28 @@ import prisma from "@/lib/prisma"
 type ParamsType = Promise<{ category: string; question: string }>
 
 export default async function QuestionPage({ params }: { params: ParamsType }) {
-  const { category, question: questionSlug } = await params
+  const { category: categorySlug, question: questionSlug } = await params
+
+  const categoryData = await prisma.category.findUnique({
+    where: { slug: categorySlug },
+  })
 
   const questionData = await prisma.question.findUnique({
     where: {
       slug: questionSlug,
     },
-    include: { answers: true },
+    include: {
+      answers: {
+        omit: {
+          isCorrect: true,
+        },
+      },
+    },
   })
+
+  if (!categoryData) {
+    return <p>Category not found</p>
+  }
 
   if (!questionData) {
     return <p>Question not found</p>
@@ -21,7 +35,7 @@ export default async function QuestionPage({ params }: { params: ParamsType }) {
   return (
     <>
       <header className="w-full">
-        <CategoryDisplay category={category} />
+        <CategoryDisplay category={categoryData.name} />
       </header>
 
       <main className="mt-12 lg:mt-20">

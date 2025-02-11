@@ -1,4 +1,3 @@
-"use client"
 import { RadioGroup, FieldError } from "react-aria-components"
 import AnswerOption from "./AnswerOption"
 
@@ -11,7 +10,6 @@ export default function AnswerGroup({
   answers: {
     id: string
     answer: string
-    isCorrect: boolean
     questionId: string
   }[]
   userAnswerId: string | null

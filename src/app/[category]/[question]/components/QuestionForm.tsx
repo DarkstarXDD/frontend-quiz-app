@@ -13,7 +13,6 @@ type QuestionDataType = {
   answers: {
     id: string
     answer: string
-    isCorrect: boolean
     questionId: string
   }[]
 }

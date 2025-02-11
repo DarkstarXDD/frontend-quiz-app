@@ -6,7 +6,7 @@ import { CgCloseO } from "react-icons/cg"
 
 type AnswerOptionType = {
   labelLetter: string
-  answer: { id: string; answer: string; isCorrect: boolean; questionId: string }
+  answer: { id: string; answer: string; questionId: string }
   isSelected: boolean
   isAnswerCorrect: boolean | null
   isCorrectAnswer: boolean
