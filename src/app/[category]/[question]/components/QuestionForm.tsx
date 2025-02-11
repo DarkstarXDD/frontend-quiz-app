@@ -22,18 +22,19 @@ type QuestionFormProps = {
   }
 }
 
+let correctAnswerId: string | undefined
+let isUserAnswerCorrect: boolean | undefined
+
 export default function QuestionForm({ questionData }: QuestionFormProps) {
   const [userAnswerId, setUserAnswerId] = useState<string | null>(null)
-  const [correctAnswerId, setCorrectAnswerId] = useState<string | null>(null)
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null)
 
   async function handleSubmit(formData: FormData) {
     const userAnswerId = formData.get("user-answer") as string
-    const correctAnswerId = await getCorrectAnswerId(questionData.id)
-
     setUserAnswerId(userAnswerId)
-    setCorrectAnswerId(correctAnswerId ?? null)
-    setIsAnswerCorrect(correctAnswerId === userAnswerId)
+
+    correctAnswerId = await getCorrectAnswerId(questionData.id)
+
+    isUserAnswerCorrect = correctAnswerId === userAnswerId
   }
 
   return (
@@ -64,7 +65,7 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
               labelLetter={String.fromCharCode(65 + index)}
               answer={answer}
               isSelected={userAnswerId === answer.id}
-              isAnswerCorrect={isAnswerCorrect}
+              isUserAnswerCorrect={isUserAnswerCorrect}
               isCorrectAnswer={correctAnswerId === answer.id}
             />
           ))}
