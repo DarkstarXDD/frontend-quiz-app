@@ -1,27 +1,28 @@
 "use client"
 
 import { useState } from "react"
-import AnswerGroup from "./AnswerGroup"
+import { RadioGroup, FieldError } from "react-aria-components"
+
 import Button from "@/components/Button"
+import AnswerOption from "./AnswerOption"
+
 import { validateAnswer } from "@/actions/actions"
 
-type QuestionDataType = {
-  id: string
-  question: string
-  slug: string
-  categoryId: string
-  answers: {
+type QuestionFormProps = {
+  questionData: {
     id: string
-    answer: string
-    questionId: string
-  }[]
+    question: string
+    slug: string
+    categoryId: string
+    answers: {
+      id: string
+      answer: string
+      questionId: string
+    }[]
+  }
 }
 
-export default function QuestionForm({
-  questionData,
-}: {
-  questionData: QuestionDataType
-}) {
+export default function QuestionForm({ questionData }: QuestionFormProps) {
   const [userAnswerId, setUserAnswerId] = useState<string | null>(null)
   const [correctAnswerId, setCorrectAnswerId] = useState<string | null>(null)
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null)
@@ -50,12 +51,28 @@ export default function QuestionForm({
       </div>
 
       <div className="grid gap-4 md:gap-8">
-        <AnswerGroup
-          answers={questionData.answers}
-          userAnswerId={userAnswerId}
-          correctAnswerId={correctAnswerId}
-          isAnswerCorrect={isAnswerCorrect}
-        />
+        <RadioGroup
+          name="user-answer"
+          isRequired
+          isDisabled={userAnswerId ? true : false}
+          aria-label="answer options"
+          className="grid w-full gap-4 md:gap-6 lg:gap-4"
+        >
+          {questionData.answers.map((answer, index) => (
+            <AnswerOption
+              key={answer.id}
+              labelLetter={String.fromCharCode(65 + index)}
+              answer={answer}
+              isSelected={userAnswerId === answer.id}
+              isAnswerCorrect={isAnswerCorrect}
+              isCorrectAnswer={correctAnswerId === answer.id}
+            />
+          ))}
+
+          <FieldError className="text-sm leading-none text-red md:text-lg">
+            Please select an answer
+          </FieldError>
+        </RadioGroup>
         <Button>Submit Answer</Button>
       </div>
     </form>

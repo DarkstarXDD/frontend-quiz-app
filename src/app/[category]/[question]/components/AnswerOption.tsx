@@ -12,7 +12,7 @@ type AnswerOptionType = {
   isCorrectAnswer: boolean
 }
 
-// Should only be used as a child for AnswerGroup
+// Should only be used as a child for RAC RadioGroup
 export default function AnswerOption({
   labelLetter,
   answer,
