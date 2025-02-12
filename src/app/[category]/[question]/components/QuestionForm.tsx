@@ -31,9 +31,10 @@ let nextQuestionSlug: string = "/"
 export default function QuestionForm({ questionData }: QuestionFormProps) {
   const [userAnswerId, setUserAnswerId] = useState<string | null>(null)
   const [questionNumber, setQuestionNumber] = useState<string | null>()
+  const questionNumberKey = `questionNumber${questionData.categoryId}`
 
   useEffect(() => {
-    const questionNumberInLocalStorage = localStorage.getItem("questionNumber")
+    const questionNumberInLocalStorage = localStorage.getItem(questionNumberKey)
     setQuestionNumber(
       questionNumberInLocalStorage === null ? "1" : questionNumberInLocalStorage
     )
@@ -53,7 +54,7 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
       isUserAnswerCorrect = fromStorageValidated.isUserAnswerCorrect
       nextQuestionSlug = fromStorageValidated.nextQuestionSlug
     }
-  }, [questionData])
+  }, [questionData, questionNumberKey])
 
   async function handleSubmit(formData: FormData) {
     const userAnswerId = formData.get("user-answer") as string
@@ -80,7 +81,7 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
     )
 
     const nextQuestionNumber = Number(questionNumber) + 1
-    localStorage.setItem("questionNumber", String(nextQuestionNumber))
+    localStorage.setItem(questionNumberKey, String(nextQuestionNumber))
   }
 
   return (
