@@ -4,9 +4,10 @@ import { useState } from "react"
 import { RadioGroup, FieldError } from "react-aria-components"
 
 import Button from "@/components/Button"
+import Link from "@/components/Link"
 import AnswerOption from "./AnswerOption"
 
-import { getCorrectAnswerId } from "@/actions/actions"
+import { getCorrectAnswerIdAndNextQuestionSlug } from "@/actions/actions"
 
 type QuestionFormProps = {
   questionData: {
@@ -24,6 +25,7 @@ type QuestionFormProps = {
 
 let correctAnswerId: string | undefined
 let isUserAnswerCorrect: boolean | undefined
+let nextQuestionSlug: string = "/"
 
 export default function QuestionForm({ questionData }: QuestionFormProps) {
   const [userAnswerId, setUserAnswerId] = useState<string | null>(null)
@@ -32,7 +34,13 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
     const userAnswerId = formData.get("user-answer") as string
     setUserAnswerId(userAnswerId)
 
-    correctAnswerId = await getCorrectAnswerId(questionData.id)
+    const response = await getCorrectAnswerIdAndNextQuestionSlug(
+      questionData.id,
+      questionData.categoryId
+    )
+
+    correctAnswerId = response.correctAnswerId
+    nextQuestionSlug = response.nextQuestionSlug
 
     isUserAnswerCorrect = correctAnswerId === userAnswerId
   }
@@ -74,7 +82,12 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
             Please select an answer
           </FieldError>
         </RadioGroup>
-        <Button>Submit Answer</Button>
+
+        {userAnswerId === null ? (
+          <Button>Submit Answer</Button>
+        ) : (
+          <Link href={nextQuestionSlug}>Next Question</Link>
+        )}
       </div>
     </form>
   )

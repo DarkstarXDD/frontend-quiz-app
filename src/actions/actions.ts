@@ -2,7 +2,10 @@
 
 import prisma from "@/lib/prisma"
 
-export async function getCorrectAnswerId(questionId: string) {
+export async function getCorrectAnswerIdAndNextQuestionSlug(
+  questionId: string,
+  categoryId: string
+) {
   const correctAnswerData = await prisma.answer.findFirst({
     where: {
       questionId: questionId,
@@ -13,5 +16,18 @@ export async function getCorrectAnswerId(questionId: string) {
     },
   })
 
-  return correctAnswerData?.id
+  const nextQuestionSlug = await prisma.question.findMany({
+    where: {
+      categoryId: categoryId,
+    },
+    skip: 1,
+    select: {
+      slug: true,
+    },
+  })
+
+  return {
+    correctAnswerId: correctAnswerData?.id,
+    nextQuestionSlug: nextQuestionSlug[0].slug,
+  }
 }
