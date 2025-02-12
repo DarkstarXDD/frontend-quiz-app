@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { RadioGroup, FieldError } from "react-aria-components"
 
 import Button from "@/components/Button"
@@ -8,6 +8,7 @@ import Link from "@/components/Link"
 import AnswerOption from "./AnswerOption"
 
 import { getCorrectAnswerIdAndNextQuestionSlug } from "@/actions/actions"
+import { QuestionDataInLocalStorageSchema } from "@/lib/types"
 
 type QuestionFormProps = {
   questionData: {
@@ -29,6 +30,30 @@ let nextQuestionSlug: string = "/"
 
 export default function QuestionForm({ questionData }: QuestionFormProps) {
   const [userAnswerId, setUserAnswerId] = useState<string | null>(null)
+  const [questionNumber, setQuestionNumber] = useState<string | null>()
+
+  useEffect(() => {
+    const questionNumberInLocalStorage = localStorage.getItem("questionNumber")
+    setQuestionNumber(
+      questionNumberInLocalStorage === null ? "1" : questionNumberInLocalStorage
+    )
+
+    // After the page loads check local storage and see whether data exists for this question.
+    // If so use that.
+    const questionDataInLocalStorage = localStorage.getItem(questionData.id)
+
+    if (questionDataInLocalStorage) {
+      const fromStorage = JSON.parse(questionDataInLocalStorage)
+
+      const fromStorageValidated =
+        QuestionDataInLocalStorageSchema.parse(fromStorage)
+
+      setUserAnswerId(fromStorageValidated.userAnswerId)
+      correctAnswerId = fromStorageValidated.correctAnswerId
+      isUserAnswerCorrect = fromStorageValidated.isUserAnswerCorrect
+      nextQuestionSlug = fromStorageValidated.nextQuestionSlug
+    }
+  }, [questionData])
 
   async function handleSubmit(formData: FormData) {
     const userAnswerId = formData.get("user-answer") as string
@@ -43,6 +68,19 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
     nextQuestionSlug = response.nextQuestionSlug
 
     isUserAnswerCorrect = correctAnswerId === userAnswerId
+
+    localStorage.setItem(
+      questionData.id,
+      JSON.stringify({
+        userAnswerId: userAnswerId,
+        correctAnswerId: correctAnswerId,
+        isUserAnswerCorrect: isUserAnswerCorrect,
+        nextQuestionSlug: nextQuestionSlug,
+      })
+    )
+
+    const nextQuestionNumber = Number(questionNumber) + 1
+    localStorage.setItem("questionNumber", String(nextQuestionNumber))
   }
 
   return (
@@ -52,7 +90,7 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
     >
       <div className="grid gap-4 md:gap-6">
         <p className="text-xs font-normal italic text-grey-500 md:text-md">
-          Question 6 of 10
+          Question {questionNumber ?? 1} of 10
         </p>
         <p className="text-md leading-tight md:text-2xl">
           {questionData.question}
