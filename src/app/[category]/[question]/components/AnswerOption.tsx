@@ -24,21 +24,24 @@ export default function AnswerOption({
     <Radio
       value={answer.id}
       className={twMerge(
-        "group flex w-full cursor-pointer items-center gap-4 rounded-md bg-white p-4 shadow-sm ring-purple-600 data-[disabled]:cursor-not-allowed data-[focus-visible]:ring data-[selected]:ring md:gap-8 md:rounded-lg lg:p-6",
+        "group flex w-full cursor-pointer items-center justify-between gap-4 rounded-md bg-white p-4 shadow-sm ring-purple-600 data-[disabled]:cursor-not-allowed data-[focus-visible]:ring data-[selected]:ring md:gap-8 md:rounded-lg lg:p-6",
         isSelected && isUserAnswerCorrect && "ring ring-green-500",
         isSelected && !isUserAnswerCorrect && "ring ring-red"
       )}
     >
-      <AnswerLetter
-        letter={labelLetter}
-        className={twMerge(
-          "group-data-[selected]:bg-purple-600 group-data-[selected]:text-white",
-          isSelected && isUserAnswerCorrect && "bg-green-500 text-white",
-          isSelected && !isUserAnswerCorrect && "bg-red text-white"
-        )}
-      />
-      <p className="text-sm leading-none md:text-xl">{answer.answer}</p>
-      <p className="flex-grow text-right">
+      <div className="flex items-center gap-4 md:gap-8">
+        <AnswerLetter
+          letter={labelLetter}
+          className={twMerge(
+            "group-data-[selected]:bg-purple-600 group-data-[selected]:text-white",
+            isSelected && isUserAnswerCorrect && "bg-green-500 text-white",
+            isSelected && !isUserAnswerCorrect && "bg-red text-white"
+          )}
+        />
+        <p className="text-sm leading-none md:text-xl">{answer.answer}</p>
+      </div>
+
+      <p>
         {isCorrectAnswer && isSelected && (
           <FaRegCircleCheck className="size-6 text-green-500 md:size-7" />
         )}
