@@ -6,6 +6,7 @@ import { RadioGroup, FieldError } from "react-aria-components"
 import Button from "@/components/Button"
 import Link from "@/components/Link"
 import AnswerOption from "./AnswerOption"
+import ProgressBar from "@/components/ProgressBar"
 
 import { getCorrectAnswerIdAndNextQuestionSlug } from "@/actions/actions"
 import { QuestionDataInLocalStorageSchema } from "@/lib/types"
@@ -97,6 +98,12 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
         <p className="text-md leading-tight md:text-2xl">
           {questionData.question}
         </p>
+        <ProgressBar
+          className="mt-2 md:mt-4"
+          value={Number(questionNumber)}
+          minValue={0}
+          maxValue={10}
+        />
       </div>
 
       <div className="grid gap-4 md:gap-8">
