@@ -34,14 +34,15 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
   const questionNumberKey = `questionNumber${questionData.categoryId}`
 
   useEffect(() => {
-    const questionNumberInLocalStorage = localStorage.getItem(questionNumberKey)
+    const questionNumberInLocalStorage =
+      sessionStorage.getItem(questionNumberKey)
     setQuestionNumber(
       questionNumberInLocalStorage === null ? "1" : questionNumberInLocalStorage
     )
 
     // After the page loads check local storage and see whether data exists for this question.
     // If so use that.
-    const questionDataInLocalStorage = localStorage.getItem(questionData.id)
+    const questionDataInLocalStorage = sessionStorage.getItem(questionData.id)
 
     if (questionDataInLocalStorage) {
       const fromStorage = JSON.parse(questionDataInLocalStorage)
@@ -70,7 +71,7 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
 
     isUserAnswerCorrect = correctAnswerId === userAnswerId
 
-    localStorage.setItem(
+    sessionStorage.setItem(
       questionData.id,
       JSON.stringify({
         userAnswerId: userAnswerId,
@@ -81,7 +82,7 @@ export default function QuestionForm({ questionData }: QuestionFormProps) {
     )
 
     const nextQuestionNumber = Number(questionNumber) + 1
-    localStorage.setItem(questionNumberKey, String(nextQuestionNumber))
+    sessionStorage.setItem(questionNumberKey, String(nextQuestionNumber))
   }
 
   return (
