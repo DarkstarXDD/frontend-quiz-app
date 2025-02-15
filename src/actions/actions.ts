@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma"
 import { CategorySchema } from "@/lib/types"
 import type { CategoryFormState } from "@/lib/types"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
+import { revalidatePath } from "next/cache"
 
 export async function getCorrectAnswerIdAndNextQuestionSlug(
   questionId: string,
@@ -61,6 +62,7 @@ export async function createNewCategory(
         slug: createSlug(validatedData.data.name),
       },
     })
+    revalidatePath("/admin/category")
     return { message: `New category added: ${category.name}` }
   } catch (error) {
     if (
