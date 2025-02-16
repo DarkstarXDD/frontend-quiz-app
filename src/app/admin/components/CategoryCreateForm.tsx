@@ -4,7 +4,6 @@ import { useActionState } from "react"
 
 import Form from "next/form"
 import AdminButton from "../components/AdminButton"
-// import Toast from "./Toast"
 
 import { createNewCategory } from "@/actions/actions"
 
@@ -35,8 +34,6 @@ export default function CategoryCreateForm() {
           {isPending ? "Creating..." : "Create"}
         </AdminButton>
       </Form>
-
-      {/* {state?.message && <Toast toastMessage={state.message} />} */}
     </>
   )
 }

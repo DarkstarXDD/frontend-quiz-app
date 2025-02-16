@@ -2,7 +2,6 @@ import prisma from "@/lib/prisma"
 
 import NextLink from "next/link"
 import CategoryCreateForm from "../components/CategoryCreateForm"
-import { Toaster } from "sonner"
 
 export default async function CategoryPage() {
   const categories = await prisma.category.findMany()
@@ -24,7 +23,6 @@ export default async function CategoryPage() {
 
         <div>
           <CategoryCreateForm />
-          <Toaster position="top-right" closeButton />
         </div>
       </div>
     </main>
