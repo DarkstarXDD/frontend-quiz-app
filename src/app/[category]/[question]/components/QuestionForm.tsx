@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { RadioGroup, FieldError } from "react-aria-components"
+import { Prisma } from "@prisma/client"
 
 import Button from "@/components/Button"
 import Link from "@/components/Link"
@@ -12,17 +13,15 @@ import { getCorrectAnswerIdAndNextQuestionSlug } from "@/actions/actions"
 import { QuestionDataInLocalStorageSchema } from "@/lib/types"
 
 type QuestionFormProps = {
-  questionData: {
-    id: string
-    question: string
-    slug: string
-    categoryId: string
-    answers: {
-      id: string
-      answer: string
-      questionId: string
-    }[]
-  }
+  questionData: Prisma.QuestionGetPayload<{
+    include: {
+      answers: {
+        omit: {
+          isCorrect: true
+        }
+      }
+    }
+  }>
 }
 
 let correctAnswerId: string | undefined
